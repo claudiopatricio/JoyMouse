@@ -1,5 +1,5 @@
 /*
-  Mouse.cpp
+  JoyMouse.cpp
 
   Copyright (c) 2015, Arduino LLC
   Original code (pre-library): Copyright (c) 2011, Peter Barrett
@@ -19,13 +19,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "Mouse.h"
+#include "JoyMouse.h"
 
-#if defined(_USING_HID)
+#if defined(_USING_DYNAMIC_HID)
 
 static const uint8_t _hidReportDescriptor[] PROGMEM = {
-  
-  //  Mouse
+
+  //  JoyMouse
     0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)  // 54
     0x09, 0x02,                    // USAGE (Mouse)
     0xa1, 0x01,                    // COLLECTION (Application)
@@ -58,7 +58,7 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
 
 //================================================================================
 //================================================================================
-//	Mouse
+//	JoyMouse
 
 /* This function is for limiting the input value for x and y
  * axis to -127 <= x/y <= 127 since this is the allowed value
@@ -71,21 +71,21 @@ signed char limit_xy(int const xy)
   else               return xy;
 }
 
-Mouse_::Mouse_(void) : _buttons(0)
+JoyMouse_::JoyMouse_() : _buttons(0)
 {
-    static HIDSubDescriptor node(_hidReportDescriptor, sizeof(_hidReportDescriptor));
-    HID().AppendDescriptor(&node);
+    DynamicHIDSubDescriptor *node = new DynamicHIDSubDescriptor(_hidReportDescriptor, sizeof(_hidReportDescriptor), true); // data, length, inProgMem
+    DynamicHID().AppendDescriptor(node);
 }
 
-void Mouse_::begin(void) 
-{
-}
-
-void Mouse_::end(void) 
+void JoyMouse_::begin(void)
 {
 }
 
-void Mouse_::click(uint8_t b)
+void JoyMouse_::end(void)
+{
+}
+
+void JoyMouse_::click(uint8_t b)
 {
 	_buttons = b;
 	move(0,0,0);
@@ -93,17 +93,17 @@ void Mouse_::click(uint8_t b)
 	move(0,0,0);
 }
 
-void Mouse_::move(int x, int y, signed char wheel)
+void JoyMouse_::move(int x, int y, signed char wheel)
 {
 	uint8_t m[4];
 	m[0] = _buttons;
 	m[1] = limit_xy(x);
 	m[2] = limit_xy(y);
 	m[3] = wheel;
-	HID().SendReport(1,m,4);
+	DynamicHID().SendReport(1,m,4);
 }
 
-void Mouse_::buttons(uint8_t b)
+void JoyMouse_::buttons(uint8_t b)
 {
 	if (b != _buttons)
 	{
@@ -112,23 +112,21 @@ void Mouse_::buttons(uint8_t b)
 	}
 }
 
-void Mouse_::press(uint8_t b) 
+void JoyMouse_::press(uint8_t b)
 {
 	buttons(_buttons | b);
 }
 
-void Mouse_::release(uint8_t b)
+void JoyMouse_::release(uint8_t b)
 {
 	buttons(_buttons & ~b);
 }
 
-bool Mouse_::isPressed(uint8_t b)
+bool JoyMouse_::isPressed(uint8_t b)
 {
-	if ((b & _buttons) > 0) 
+	if ((b & _buttons) > 0)
 		return true;
 	return false;
 }
-
-Mouse_ Mouse;
 
 #endif

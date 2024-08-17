@@ -1,5 +1,5 @@
 /*
-  Mouse.h
+  JoyMouse.h
 
   Copyright (c) 2015, Arduino LLC
   Original code (pre-library): Copyright (c) 2011, Peter Barrett
@@ -19,12 +19,12 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef MOUSE_h
-#define MOUSE_h
+#ifndef JOYMOUSE_h
+#define JOYMOUSE_h
 
-#include "HID.h"
+#include <DDCHID32U4.h>
 
-#if !defined(_USING_HID)
+#if !defined(_USING_DYNAMIC_HID)
 
 #warning "Using legacy HID core (non pluggable)"
 
@@ -39,13 +39,13 @@
 #define MOUSE_MIDDLE 4
 #define MOUSE_ALL (MOUSE_LEFT | MOUSE_RIGHT | MOUSE_MIDDLE)
 
-class Mouse_
+class JoyMouse_
 {
 private:
   uint8_t _buttons;
   void buttons(uint8_t b);
 public:
-  Mouse_(void);
+  JoyMouse_();
   void begin(void);
   void end(void);
   void click(uint8_t b = MOUSE_LEFT);
@@ -54,7 +54,6 @@ public:
   void release(uint8_t b = MOUSE_LEFT); // release LEFT by default
   bool isPressed(uint8_t b = MOUSE_LEFT); // check LEFT by default
 };
-extern Mouse_ Mouse;
 
 #endif
 #endif
