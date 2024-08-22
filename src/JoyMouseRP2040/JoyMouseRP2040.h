@@ -1,5 +1,5 @@
 /*
-  JoyMouse.h
+  JoyMouseRP2040.h
 
   Copyright (c) 2015, Arduino LLC
   Original code (pre-library): Copyright (c) 2011, Peter Barrett
@@ -19,16 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef JOYMOUSE_h
-#define JOYMOUSE_h
+#ifndef JOYMOUSERP2040_h
+#define JOYMOUSERP2040_h
 
-#include <DDCHID32U4.h>
-
-#if !defined(_USING_DYNAMIC_HID)
-
-#warning "Using legacy HID core (non pluggable)"
-
-#else
+#include <Arduino.h>
+#include "Adafruit_TinyUSB.h"
 
 //================================================================================
 //================================================================================
@@ -39,13 +34,16 @@
 #define MOUSE_MIDDLE 4
 #define MOUSE_ALL (MOUSE_LEFT | MOUSE_RIGHT | MOUSE_MIDDLE)
 
-class JoyMouse_
+class JoyMouseRP2040_
 {
 private:
+	Adafruit_USBD_HID usb_hid;
+protected:
   uint8_t _buttons;
   void buttons(uint8_t b);
+  int limit_xy(int const xy);
 public:
-  JoyMouse_();
+  JoyMouseRP2040_();
   void begin(void);
   void end(void);
   void click(uint8_t b = MOUSE_LEFT);
@@ -55,5 +53,4 @@ public:
   bool isPressed(uint8_t b = MOUSE_LEFT); // check LEFT by default
 };
 
-#endif
 #endif

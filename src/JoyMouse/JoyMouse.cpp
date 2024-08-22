@@ -64,11 +64,11 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
  * axis to -127 <= x/y <= 127 since this is the allowed value
  * range for a USB HID device.
  */
-signed char limit_xy(int const xy)
+int JoyMouse_::limit_xy(int const xy)
 {
-  if     (xy < -127) return -127;
-  else if(xy >  127) return 127;
-  else               return xy;
+	if     (xy < -127) return -127;
+	else if(xy >  127) return 127;
+	else               return xy;
 }
 
 JoyMouse_::JoyMouse_() : _buttons(0)
@@ -125,7 +125,9 @@ void JoyMouse_::release(uint8_t b)
 bool JoyMouse_::isPressed(uint8_t b)
 {
 	if ((b & _buttons) > 0)
+	{
 		return true;
+	}
 	return false;
 }
 
