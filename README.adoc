@@ -1,7 +1,7 @@
 :repository-owner: claudiopatricio
 :repository-name: JoyMouse
 
-= {repository-name} Library for Arduino and RP2040=
+= {repository-name} Library for Arduino and RP2040 =
 
 This library allows an Arduino/RP2040 board with USB capabilities to act as a Mouse.
 
