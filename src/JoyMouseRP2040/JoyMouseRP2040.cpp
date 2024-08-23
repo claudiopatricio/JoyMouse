@@ -1,22 +1,22 @@
 /*
-  JoyMouseRP2040.cpp
+JoyMouseRP2040.cpp
 
-  Copyright (c) 2015, Arduino LLC
-  Original code (pre-library): Copyright (c) 2011, Peter Barrett
+Copyright (c) 2015, Arduino LLC
+Original code (pre-library): Copyright (c) 2011, Peter Barrett
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "JoyMouseRP2040.h"
@@ -24,7 +24,7 @@
 #define USB_POLLING_RATE 2
 
 uint8_t const _hidReportDescriptor[] = {
-  TUD_HID_REPORT_DESC_MOUSE(HID_REPORT_ID(HID_ITF_PROTOCOL_MOUSE))
+	TUD_HID_REPORT_DESC_MOUSE(HID_REPORT_ID(HID_ITF_PROTOCOL_MOUSE))
 };
 
 //================================================================================
@@ -32,9 +32,9 @@ uint8_t const _hidReportDescriptor[] = {
 //	JoyMouseRP2040
 
 /* This function is for limiting the input value for x and y
- * axis to -127 <= x/y <= 127 since this is the allowed value
- * range for a USB HID device.
- */
+* axis to -127 <= x/y <= 127 since this is the allowed value
+* range for a USB HID device.
+*/
 int JoyMouseRP2040_::limit_xy(int const xy)
 {
 	if     (xy < -127) return -127;
@@ -47,9 +47,9 @@ JoyMouseRP2040_::JoyMouseRP2040_(void) : _buttons(0) {}
 void JoyMouseRP2040_::begin(void)
 {
 	usb_hid.setPollInterval(USB_POLLING_RATE);
-    usb_hid.setReportDescriptor(_hidReportDescriptor, sizeof(_hidReportDescriptor));
+	usb_hid.setReportDescriptor(_hidReportDescriptor, sizeof(_hidReportDescriptor));
 	usb_hid.begin();
-    while( !TinyUSBDevice.mounted() ) delay(1);
+	while( !TinyUSBDevice.mounted() ) delay(1);
 }
 
 void JoyMouseRP2040_::end(void)
@@ -70,7 +70,7 @@ void JoyMouseRP2040_::move(int x, int y, signed char wheel)
 {
 	if ( TinyUSBDevice.suspended() )
 	{
-      TinyUSBDevice.remoteWakeup();
+		TinyUSBDevice.remoteWakeup();
 	}
 	while(!usb_hid.ready())
 	{
