@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define MOUSE_RIGHT 2
 #define MOUSE_MIDDLE 4
 #define MOUSE_ALL (MOUSE_LEFT | MOUSE_RIGHT | MOUSE_MIDDLE)
+#define MOUSE_UP 3
+#define MOUSE_DOWN 4
 
 class JoyMouseRP2040_
 {
